@@ -1,3 +1,6 @@
+function gettile2indexat (col: number, row: number) {
+    return map2[col][row]
+}
 function setlevel (lvl: number) {
     gameisstarted = true
     score = 0
@@ -49,7 +52,21 @@ function setlevel (lvl: number) {
     } else if (lvl == 3) {
         createmap(10, 10)
         imagesetmap(assets.image`map1`, 10, 10)
+        setlayer2(lvl)
     }
+}
+function createmap2 (width: number, height: number) {
+    map2 = []
+    for (let index5 = 0; index5 <= width - 1; index5++) {
+        newcolumn2 = []
+        for (let index6 = 0; index6 <= height - 1; index6++) {
+            newcolumn2.push(0)
+        }
+        map2.push(newcolumn2)
+    }
+}
+function settile2indexat (col: number, row: number, index: number) {
+    map2[col][row] = index
 }
 function imagesetmap (map: Image, width: number, height: number) {
     for (let index = 0; index <= width - 1; index++) {
@@ -57,6 +74,23 @@ function imagesetmap (map: Image, width: number, height: number) {
             index3 = map.getPixel(index, index2)
             settileindexat(index, index2, index3)
         }
+    }
+}
+function setlayer2 (lvl: number) {
+    if (lvl == 3) {
+        createmap2(10, 10)
+        imagesetmap2(img`
+            . . . . . . . . . . 
+            . . . . . . . . . . 
+            . . . . . . . . . . 
+            . . . . . . . . . . 
+            . . . . . . . . . . 
+            9 9 9 9 9 9 9 9 9 9 
+            . . . . . . . . . . 
+            . . . . . . . . . . 
+            . . . . . . . . . . 
+            . . . . . . . . . . 
+            `, 10, 10)
     }
 }
 function createmap (width: number, height: number) {
@@ -72,22 +106,35 @@ function createmap (width: number, height: number) {
 function settileindexat (col: number, row: number, index: number) {
     map[col][row] = index
 }
+function imagesetmap2 (map: Image, width: number, height: number) {
+    for (let index = 0; index <= width - 1; index++) {
+        for (let index2 = 0; index2 <= height - 1; index2++) {
+            index3 = map.getPixel(index, index2)
+            settile2indexat(index, index2, index3)
+        }
+    }
+}
 function gettileindexat (col: number, row: number) {
     return map[col][row]
 }
+let imagenum = 0
+let dir = 0
 let carX = 0
 let car_exists = false
 let truck2Y = 0
 let truck2exists = false
 let truckY = 0
 let truck_exists = false
+let image2: Image = null
 let newcolumn: number[] = []
 let map: number[][] = []
 let index3 = 0
+let newcolumn2: number[] = []
 let Y = 0
 let X = 0
 let score = 0
 let gameisstarted = false
+let map2: number[][] = []
 let scorewidth = 0
 if (!(blockSettings.exists("levl"))) {
     blockSettings.writeNumber("levl", 0)
@@ -163,22 +210,22 @@ img`
     f f f f f f f f f f f f f f f f 
     `,
 img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
+    . e e e . e e e . e e e . e e e 
+    d e 4 e d e 4 e d e 4 e d e 4 e 
+    d e 4 e d e 4 e d e 4 e d e 4 e 
+    . e 4 e . e 4 e . e 4 e . e 4 e 
+    . e 4 e . e 4 e . e 4 e . e 4 e 
+    . e 4 e . e 4 e . e 4 e . e 4 e 
+    . e 4 e . e 4 e . e 4 e . e 4 e 
+    . e 4 e . e 4 e . e 4 e . e 4 e 
+    . e 4 e . e 4 e . e 4 e . e 4 e 
+    . e 4 e . e 4 e . e 4 e . e 4 e 
+    . e 4 e . e 4 e . e 4 e . e 4 e 
+    . e 4 e . e 4 e . e 4 e . e 4 e 
+    . e 4 e . e 4 e . e 4 e . e 4 e 
+    d e 4 e d e 4 e d e 4 e d e 4 e 
+    d e 4 e d e 4 e d e 4 e d e 4 e 
+    . e e e . e e e . e e e . e e e 
     `,
 img`
     f f f f f f f f f f f f f f f f 
@@ -421,24 +468,26 @@ img`
 scorewidth = 16
 setlevel(level)
 menu.addmenuoption("RESET GAME", img`
-    ..................
-    .......aaaa.......
-    .....aaaaaaaa.....
-    ....caaaaaaaaa....
-    ...cccc....aaaa...
-    ..ccc.............
-    ..ccc..........a..
-    .ccc..........aaa.
-    .ccc.........aaaaa
-    ccccc.........aaa.
-    .ccc..........aaa.
-    ..c..........aaa..
-    .............aaa..
-    ...cccc....aaaa...
-    ....ccccccccca....
-    .....cccccccc.....
-    .......cccc.......
-    ..................
+    ....................
+    ........cccc........
+    ......ccaaaacc......
+    .....faaaaaaaac.....
+    ....fcaaaaaaaaac....
+    ...fccccfcccaaaac...
+    ..fcccff....ccccc...
+    ..fcccf.............
+    .fcccccf.......c....
+    ..fcccf.......cac...
+    ...fcf.......caaac..
+    ....f.......caaaaac.
+    .............caaac..
+    ...fffff....ccaaac..
+    ...fccccffffaaaac...
+    ....fcccccccccac....
+    .....fccccccccf.....
+    ......ffccccff......
+    ........ffff........
+    ....................
     `, function () {
     blockSettings.clear()
     game.reset()
@@ -450,26 +499,7 @@ game.onUpdate(function () {
             spriteutils.drawTransparentImage(tiles2[gettileindexat(indexX, indexY)], scene.backgroundImage(), indexX * 16 - scene.cameraProperty(CameraProperty.Left), indexY * 16 - scene.cameraProperty(CameraProperty.Top))
         }
     }
-    if (level == 1 || level == 2) {
-        spriteutils.drawTransparentImage(img`
-            . 1 1 1 1 1 . . . . . . 
-            . 1 2 1 2 1 . . . . . . 
-            . 1 2 2 2 1 . . . . . . 
-            . 1 e e e 1 . . . . . . 
-            1 1 e f e 1 . . . 1 1 1 
-            1 4 e e e 1 1 1 1 1 e 1 
-            1 1 e e e e e e e e e 1 
-            . 1 e e e e e e e e e 1 
-            . 1 1 e e e e e e e e 1 
-            . . 1 1 e e e e e e 1 1 
-            . . . 1 1 4 1 1 4 1 1 . 
-            . . . . 1 4 1 1 4 1 . . 
-            . . . 1 4 4 1 4 4 1 . . 
-            . . . 1 1 1 1 1 1 1 . . 
-            `, scene.backgroundImage(), X, Y)
-    } else {
-        spriteutils.drawTransparentImage(assets.image`chicken`, scene.backgroundImage(), X, Y)
-    }
+    spriteutils.drawTransparentImage(image2, scene.backgroundImage(), X, Y)
     spriteutils.drawTransparentImage(assets.image`egg`, scene.backgroundImage(), eggX, eggY)
     if (level == 0 || level == 1 || (level == 2 || level == 3)) {
         if (truck_exists) {
@@ -527,6 +557,11 @@ game.onUpdate(function () {
                     carX += 1
                 }
             }
+        }
+    }
+    for (let indexX = 0; indexX <= map2.length - 1; indexX++) {
+        for (let indexY = 0; indexY <= map2[indexX].length - 1; indexY++) {
+            spriteutils.drawTransparentImage(tiles2[gettile2indexat(indexX, indexY)], scene.backgroundImage(), indexX * 16 - scene.cameraProperty(CameraProperty.Left), indexY * 16 - scene.cameraProperty(CameraProperty.Top))
         }
     }
     spriteutils.drawTransparentImage(eggsdisplay[score], scene.backgroundImage(), scene.cameraProperty(CameraProperty.Right) - scorewidth, scene.cameraProperty(CameraProperty.Top))
@@ -607,6 +642,197 @@ game.onUpdate(function () {
     if (score == 7) {
         pauseUntil(() => controller.A.isPressed())
         game.reset()
+    }
+})
+game.onUpdateInterval(50, function () {
+    if (controller.left.isPressed()) {
+        dir = 0
+        if (level == 1 || level == 2) {
+            if (imagenum == 0) {
+                image2 = assets.image`transparent`
+                timer.after(100, function () {
+                    imagenum = 1
+                })
+            } else if (imagenum == 1) {
+                image2 = assets.image`chicken2`
+                timer.after(100, function () {
+                    imagenum = 0
+                })
+            }
+        } else {
+            if (imagenum == 0) {
+                image2 = assets.image`chicken1`
+                timer.after(100, function () {
+                    imagenum = 1
+                })
+            } else if (imagenum == 1) {
+                image2 = assets.image`chicken0`
+                timer.after(100, function () {
+                    imagenum = 0
+                })
+            }
+        }
+    } else if (controller.right.isPressed()) {
+        dir = 1
+        if (level == 1 || level == 2) {
+            if (imagenum == 0) {
+                image2 = img`
+                    . . . . . . 1 1 1 1 1 . 
+                    . . . . . . 1 2 1 2 1 . 
+                    . . . . . . 1 2 2 2 1 . 
+                    . . . . . . 1 e e e 1 . 
+                    1 1 1 . . . 1 e f e 1 1 
+                    1 e 1 1 1 1 1 e e e 4 1 
+                    1 e e e e e e e e e 1 1 
+                    1 e e e e e e e e e 1 . 
+                    1 e e e e e e e e 1 1 . 
+                    1 1 e e e e e e 1 1 . . 
+                    . 1 1 4 1 1 4 1 1 . . . 
+                    . 1 4 4 1 1 4 1 . . . . 
+                    . 1 4 1 1 1 4 4 1 . . . 
+                    . 1 1 1 1 1 1 1 1 . . . 
+                    `
+                timer.after(100, function () {
+                    imagenum = 1
+                })
+            } else if (imagenum == 1) {
+                image2 = img`
+                    . . . . . . 1 1 1 1 1 . 
+                    . . . . . . 1 2 1 2 1 . 
+                    . . . . . . 1 2 2 2 1 . 
+                    . . . . . . 1 e e e 1 . 
+                    1 1 1 . . . 1 e f e 1 1 
+                    1 e 1 1 1 1 1 e e e 4 1 
+                    1 e e e e e e e e e 1 1 
+                    1 e e e e e e e e e 1 . 
+                    1 e e e e e e e e 1 1 . 
+                    1 1 e e e e e e 1 1 . . 
+                    . 1 1 4 1 1 4 1 1 . . . 
+                    . . 1 4 1 4 4 1 . . . . 
+                    . . 1 4 4 4 1 1 . . . . 
+                    . . 1 1 1 1 1 1 . . . . 
+                    `
+                timer.after(100, function () {
+                    imagenum = 0
+                })
+            }
+        } else {
+            if (imagenum == 0) {
+                image2 = assets.image`chicken4`
+                timer.after(100, function () {
+                    imagenum = 1
+                })
+            } else if (imagenum == 1) {
+                image2 = assets.image`chicken3`
+                timer.after(100, function () {
+                    imagenum = 0
+                })
+            }
+        }
+    } else if (controller.up.isPressed()) {
+        dir = 2
+        if (level == 1 || level == 2) {
+            if (imagenum == 0) {
+                image2 = assets.image`myImage4`
+                timer.after(100, function () {
+                    imagenum = 1
+                })
+            } else if (imagenum == 1) {
+                image2 = assets.image`myImage5`
+                timer.after(100, function () {
+                    imagenum = 0
+                })
+            }
+        } else {
+            if (imagenum == 0) {
+                image2 = assets.image`myImage11`
+                timer.after(100, function () {
+                    imagenum = 1
+                })
+            } else if (imagenum == 1) {
+                image2 = assets.image`myImage10`
+                timer.after(100, function () {
+                    imagenum = 0
+                })
+            }
+        }
+    } else if (controller.down.isPressed()) {
+        dir = 3
+        if (level == 1 || level == 2) {
+            if (imagenum == 0) {
+                image2 = assets.image`myImage1`
+                timer.after(100, function () {
+                    imagenum = 1
+                })
+            } else if (imagenum == 1) {
+                image2 = assets.image`myImage2`
+                timer.after(100, function () {
+                    imagenum = 0
+                })
+            }
+        } else {
+            if (imagenum == 0) {
+                image2 = assets.image`myImage8`
+                timer.after(100, function () {
+                    imagenum = 1
+                })
+            } else if (imagenum == 1) {
+                image2 = assets.image`myImage7`
+                timer.after(100, function () {
+                    imagenum = 0
+                })
+            }
+        }
+    } else {
+        if (level == 1 || level == 2) {
+            if (dir == 0) {
+                image2 = img`
+                    . 1 1 1 1 1 . . . . . . 
+                    . 1 2 1 2 1 . . . . . . 
+                    . 1 2 2 2 1 . . . . . . 
+                    . 1 e e e 1 . . . . . . 
+                    1 1 e f e 1 . . . 1 1 1 
+                    1 4 e e e 1 1 1 1 1 e 1 
+                    1 1 e e e e e e e e e 1 
+                    . 1 e e e e e e e e e 1 
+                    . 1 1 e e e e e e e e 1 
+                    . . 1 1 e e e e e e 1 1 
+                    . . . 1 1 4 1 1 4 1 1 . 
+                    . . . . 1 4 1 1 4 1 . . 
+                    . . . 1 4 4 1 4 4 1 . . 
+                    . . . 1 1 1 1 1 1 1 . . 
+                    `
+            } else if (dir == 1) {
+                image2 = assets.image`myImage`
+            } else if (dir == 2) {
+                image2 = assets.image`myImage3`
+            } else if (dir == 3) {
+                image2 = assets.image`myImage0`
+            }
+        } else {
+            if (dir == 0) {
+                image2 = assets.image`chicken`
+            } else if (dir == 1) {
+                image2 = img`
+                    . . . . . . 2 . 2 . 
+                    . . . . . . 2 2 2 . 
+                    . . . . . . e e e . 
+                    . . . . . . e f e . 
+                    e . . . . . e e e 4 
+                    e e e e e e e e e . 
+                    e e e e e e e e e . 
+                    e e e e e e e e . . 
+                    . e e e e e e . . . 
+                    . . 4 . . 4 . . . . 
+                    . . 4 . . 4 . . . . 
+                    . . 4 4 . 4 4 . . . 
+                    `
+            } else if (dir == 2) {
+                image2 = assets.image`myImage9`
+            } else if (dir == 3) {
+                image2 = assets.image`myImage6`
+            }
+        }
     }
 })
 forever(function () {
