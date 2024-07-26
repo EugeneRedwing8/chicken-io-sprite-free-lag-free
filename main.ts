@@ -7,64 +7,55 @@ function setlevel (lvl: number) {
     if (lvl == 0) {
         createmap(10, 10)
         imagesetmap(img`
-            1 1 2 1 1 1 1 2 1 1 
-            1 1 2 1 1 1 1 2 1 1 
-            1 1 2 1 1 1 1 2 1 1 
-            1 1 2 1 1 1 1 2 1 1 
-            1 1 2 1 1 1 1 2 1 1 
-            1 1 2 1 1 1 1 2 1 1 
-            1 1 2 1 1 1 1 2 1 1 
-            1 1 2 1 1 1 1 2 1 1 
-            1 1 2 1 1 1 1 2 1 1 
-            1 1 2 1 1 1 1 2 1 1 
+            7 7 f 7 7 7 7 f 7 7 
+            7 7 f 7 7 7 7 f 7 7 
+            7 7 f 7 7 7 7 f 7 7 
+            7 7 f 7 7 7 7 f 7 7 
+            7 7 f 7 7 7 7 f 7 7 
+            7 7 f 7 7 7 7 f 7 7 
+            7 7 f 7 7 7 7 f 7 7 
+            7 7 f 7 7 7 7 f 7 7 
+            7 7 f 7 7 7 7 f 7 7 
+            7 7 f 7 7 7 7 f 7 7 
             `, 10, 10)
     } else if (lvl == 1) {
         createmap(10, 10)
         imagesetmap(img`
-            5 5 2 5 5 5 5 2 5 5 
-            5 5 2 5 5 5 5 2 5 5 
-            5 5 2 5 5 5 5 2 5 5 
-            5 5 2 5 5 5 5 2 5 5 
-            5 5 2 5 5 5 5 2 5 5 
-            3 3 4 3 3 3 3 4 3 3 
-            5 5 2 5 5 5 5 2 5 5 
-            5 5 2 5 5 5 5 2 5 5 
-            5 5 2 5 5 5 5 2 5 5 
-            5 5 2 5 5 5 5 2 5 5 
+            e e f e e e e f e e 
+            e e f e e e e f e e 
+            e e f e e e e f e e 
+            e e f e e e e f e e 
+            e e f e e e e f e e 
+            c c b c c c c b c c 
+            e e f e e e e f e e 
+            e e f e e e e f e e 
+            e e f e e e e f e e 
+            e e f e e e e f e e 
             `, 10, 10)
     } else if (lvl == 2) {
         createmap(10, 10)
         imagesetmap(img`
-            1 6 2 1 6 6 5 2 6 5 
-            6 6 2 6 6 6 6 2 6 6 
-            6 6 2 6 6 1 6 2 1 6 
-            5 6 2 6 5 6 6 2 6 5 
-            6 6 2 6 6 6 6 2 6 6 
-            3 3 4 3 3 3 3 4 3 3 
-            1 6 2 6 6 6 6 2 6 6 
-            6 6 2 6 6 1 6 2 6 1 
-            6 6 2 6 6 6 6 2 6 6 
-            6 5 2 1 6 6 5 2 1 6 
+            7 d f 7 d d e f d e 
+            d d f d d d d f d d 
+            d d f d d 7 d f 7 d 
+            e d f d e d d f d e 
+            d d f d d d d f d d 
+            c c b c c c c b c c 
+            7 d f d d d d f d d 
+            d d f d d 7 d f d 7 
+            d d f d d d d f d d 
+            d e f 7 d d e f 7 d 
             `, 10, 10)
     } else if (lvl == 3) {
         createmap(10, 10)
         imagesetmap(assets.image`map1`, 10, 10)
-    } else {
-    	
     }
 }
-controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (gameisstarted) {
-        blockSettings.remove("levl")
-        blockSettings.clear()
-        game.reset()
-    }
-})
 function imagesetmap (map: Image, width: number, height: number) {
     for (let index = 0; index <= width - 1; index++) {
         for (let index2 = 0; index2 <= height - 1; index2++) {
-            index32 = map.getPixel(index, index2)
-            settileindexat(index, index2, index32)
+            index3 = map.getPixel(index, index2)
+            settileindexat(index, index2, index3)
         }
     }
 }
@@ -72,7 +63,7 @@ function createmap (width: number, height: number) {
     map = []
     for (let index3 = 0; index3 <= width - 1; index3++) {
         newcolumn = []
-        for (let index22 = 0; index22 <= height - 1; index22++) {
+        for (let index4 = 0; index4 <= height - 1; index4++) {
             newcolumn.push(0)
         }
         map.push(newcolumn)
@@ -92,7 +83,7 @@ let truckY = 0
 let truck_exists = false
 let newcolumn: number[] = []
 let map: number[][] = []
-let index32 = 0
+let index3 = 0
 let Y = 0
 let X = 0
 let score = 0
@@ -102,6 +93,8 @@ if (!(blockSettings.exists("levl"))) {
     blockSettings.writeNumber("levl", 0)
 }
 let level = blockSettings.readNumber("levl")
+music.stopAllSounds()
+music.play(music.createSong(hex`0078000408020200001c00010a006400f401640000040000000000000000000000000005000004380020002400021da524002800021da528002c00021da52c003000021da530003400021da534003800021da538003c00021da53c004000021d2406001c00010a006400f401640000040000000000000000000000000000000002380000000400021da504000800021da508000c00021da50c001000021da510001400021da514001800021da518001c00021da51c002000021da5`), music.PlaybackMode.LoopingInBackground)
 spriteutils.drawTransparentImage(assets.image`thumbnail`, scene.backgroundImage(), 0, 0)
 pauseUntil(() => controller.B.isPressed())
 spriteutils.drawTransparentImage(assets.image`objective`, scene.backgroundImage(), 80, 60)
@@ -127,6 +120,12 @@ img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     `,
+assets.image`transparent`,
+assets.image`transparent`,
+assets.image`transparent`,
+assets.image`transparent`,
+assets.image`transparent`,
+assets.image`transparent`,
 img`
     7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
     5 7 7 7 7 7 7 7 5 7 7 5 7 7 5 7 
@@ -144,79 +143,6 @@ img`
     7 5 7 7 7 5 7 7 7 7 7 7 5 7 7 7 
     7 7 7 7 7 5 7 7 7 7 7 7 7 7 7 7 
     7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
-    `,
-img`
-    c c c c c c c 5 5 c c c c c c c 
-    c c c c c c c 5 5 c c c c c c c 
-    c c c c c c c 5 5 c c c c c c c 
-    c c c c c c c 5 5 c c c c c c c 
-    c c c c c c c 5 5 c c c c c c c 
-    c c c c c c c 5 5 c c c c c c c 
-    c c c c c c c 5 5 c c c c c c c 
-    c c c c c c c 5 5 c c c c c c c 
-    c c c c c c c 5 5 c c c c c c c 
-    c c c c c c c 5 5 c c c c c c c 
-    c c c c c c c 5 5 c c c c c c c 
-    c c c c c c c 5 5 c c c c c c c 
-    c c c c c c c 5 5 c c c c c c c 
-    c c c c c c c 5 5 c c c c c c c 
-    c c c c c c c 5 5 c c c c c c c 
-    c c c c c c c 5 5 c c c c c c c 
-    `,
-img`
-    c c c c c c c c c c c c c c c c 
-    c c c c c c c c c c c c c c c c 
-    c c c c c c c c c c c c c c c c 
-    c c c c c c c c c c c c c c c c 
-    c c c c c c c c c c c c c c c c 
-    c c c c c c c c c c c c c c c c 
-    c c c c c c c c c c c c c c c c 
-    5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-    5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-    c c c c c c c c c c c c c c c c 
-    c c c c c c c c c c c c c c c c 
-    c c c c c c c c c c c c c c c c 
-    c c c c c c c c c c c c c c c c 
-    c c c c c c c c c c c c c c c c 
-    c c c c c c c c c c c c c c c c 
-    c c c c c c c c c c c c c c c c 
-    `,
-assets.image`road3`,
-img`
-    e e e e e e e e 4 4 e e e e e e 
-    e 4 4 e e e e 4 e e 4 e e e e e 
-    4 e e 4 e e e e e e e e e e e e 
-    e e e e e e e e e e e e 4 4 e e 
-    e e e 4 4 e e e e e e 4 e e 4 e 
-    e e 4 e e 4 e e e e e e e e e e 
-    e e e e e e e e e e e e e e e e 
-    e e e e e e e e e e e e e e e e 
-    e e e e e e 4 4 e e e e e e e e 
-    e e e e e 4 e e 4 e e e e e e e 
-    e e e e e e e e e e 4 4 e e e e 
-    e e e e e e e e e 4 e e 4 e e e 
-    e e e e e e e e e e e e e e e e 
-    e e e 4 4 e e e e e e e e e e e 
-    e e 4 e e 4 e e e e e e e e e e 
-    e e e e e e e e e e e e e e e e 
-    `,
-img`
-    f f f f f f f f f f f f f f f f 
-    f e e e e e e e e e e e e e e e 
-    f e f e e e e e e e e e e e f e 
-    f e e e e e e e e e e e e e e e 
-    f e f e e e e e e e e e e e f e 
-    f e e e e e e e e e e e e e e e 
-    f f f f f f f f f f f f f f f f 
-    e e e e e e e f e e e e e e e e 
-    e e e e e f e f e f e e e e e e 
-    e e e e e e e f e e e e e e e e 
-    e e e e e f e f e f e e e e e e 
-    e e e e e e e f e e e e e e e e 
-    f f f f f f f f f f f f f f f f 
-    f e e e e e e e e e e e e e e f 
-    f e f e e e e e e e e e e f e f 
-    f e e e e e e e e e e e e e e f 
     `,
 img`
     f f f f f f f f f f f f f f f f 
@@ -237,6 +163,24 @@ img`
     f f f f f f f f f f f f f f f f 
     `,
 img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `,
+img`
     f f f f f f f f f f f f f f f f 
     f b b b b b b b b b b b b b b f 
     f b b b b b b b b b b b b b b f 
@@ -253,6 +197,79 @@ img`
     f b b b b b b b b b b b b b b f 
     f b b b b b b b b b b b b b b f 
     f f f f f f f f f f f f f f f f 
+    `,
+assets.image`road3`,
+img`
+    c c c c c c c c c c c c c c c c 
+    c c c c c c c c c c c c c c c c 
+    c c c c c c c c c c c c c c c c 
+    c c c c c c c c c c c c c c c c 
+    c c c c c c c c c c c c c c c c 
+    c c c c c c c c c c c c c c c c 
+    c c c c c c c c c c c c c c c c 
+    5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+    5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+    c c c c c c c c c c c c c c c c 
+    c c c c c c c c c c c c c c c c 
+    c c c c c c c c c c c c c c c c 
+    c c c c c c c c c c c c c c c c 
+    c c c c c c c c c c c c c c c c 
+    c c c c c c c c c c c c c c c c 
+    c c c c c c c c c c c c c c c c 
+    `,
+img`
+    f f f f f f f f f f f f f f f f 
+    f e e e e e e e e e e e e e e e 
+    f e f e e e e e e e e e e e f e 
+    f e e e e e e e e e e e e e e e 
+    f e f e e e e e e e e e e e f e 
+    f e e e e e e e e e e e e e e e 
+    f f f f f f f f f f f f f f f f 
+    e e e e e e e f e e e e e e e e 
+    e e e e e f e f e f e e e e e e 
+    e e e e e e e f e e e e e e e e 
+    e e e e e f e f e f e e e e e e 
+    e e e e e e e f e e e e e e e e 
+    f f f f f f f f f f f f f f f f 
+    f e e e e e e e e e e e e e e f 
+    f e f e e e e e e e e e e f e f 
+    f e e e e e e e e e e e e e e f 
+    `,
+img`
+    e e e e e e e e 4 4 e e e e e e 
+    e 4 4 e e e e 4 e e 4 e e e e e 
+    4 e e 4 e e e e e e e e e e e e 
+    e e e e e e e e e e e e 4 4 e e 
+    e e e 4 4 e e e e e e 4 e e 4 e 
+    e e 4 e e 4 e e e e e e e e e e 
+    e e e e e e e e e e e e e e e e 
+    e e e e e e e e e e e e e e e e 
+    e e e e e e 4 4 e e e e e e e e 
+    e e e e e 4 e e 4 e e e e e e e 
+    e e e e e e e e e e 4 4 e e e e 
+    e e e e e e e e e 4 e e 4 e e e 
+    e e e e e e e e e e e e e e e e 
+    e e e 4 4 e e e e e e e e e e e 
+    e e 4 e e 4 e e e e e e e e e e 
+    e e e e e e e e e e e e e e e e 
+    `,
+img`
+    c c c c c c c 5 5 c c c c c c c 
+    c c c c c c c 5 5 c c c c c c c 
+    c c c c c c c 5 5 c c c c c c c 
+    c c c c c c c 5 5 c c c c c c c 
+    c c c c c c c 5 5 c c c c c c c 
+    c c c c c c c 5 5 c c c c c c c 
+    c c c c c c c 5 5 c c c c c c c 
+    c c c c c c c 5 5 c c c c c c c 
+    c c c c c c c 5 5 c c c c c c c 
+    c c c c c c c 5 5 c c c c c c c 
+    c c c c c c c 5 5 c c c c c c c 
+    c c c c c c c 5 5 c c c c c c c 
+    c c c c c c c 5 5 c c c c c c c 
+    c c c c c c c 5 5 c c c c c c c 
+    c c c c c c c 5 5 c c c c c c c 
+    c c c c c c c 5 5 c c c c c c c 
     `
 ]
 let eggsdisplay = [
@@ -403,11 +420,34 @@ img`
 ]
 scorewidth = 16
 setlevel(level)
+menu.addmenuoption("RESET GAME", img`
+    ..................
+    .......aaaa.......
+    .....aaaaaaaa.....
+    ....caaaaaaaaa....
+    ...cccc....aaaa...
+    ..ccc.............
+    ..ccc..........a..
+    .ccc..........aaa.
+    .ccc.........aaaaa
+    ccccc.........aaa.
+    .ccc..........aaa.
+    ..c..........aaa..
+    .............aaa..
+    ...cccc....aaaa...
+    ....ccccccccca....
+    .....cccccccc.....
+    .......cccc.......
+    ..................
+    `, function () {
+    blockSettings.clear()
+    game.reset()
+})
 game.onUpdate(function () {
     scene.setBackgroundImage(image.create(160, 120))
-    for (let index4 = 0; index4 <= map.length - 1; index4++) {
-        for (let index23 = 0; index23 <= map[index4].length - 1; index23++) {
-            spriteutils.drawTransparentImage(tiles2[gettileindexat(index4, index23)], scene.backgroundImage(), index4 * 16 - scene.cameraProperty(CameraProperty.Left), index23 * 16 - scene.cameraProperty(CameraProperty.Top))
+    for (let indexX = 0; indexX <= map.length - 1; indexX++) {
+        for (let indexY = 0; indexY <= map[indexX].length - 1; indexY++) {
+            spriteutils.drawTransparentImage(tiles2[gettileindexat(indexX, indexY)], scene.backgroundImage(), indexX * 16 - scene.cameraProperty(CameraProperty.Left), indexY * 16 - scene.cameraProperty(CameraProperty.Top))
         }
     }
     if (level == 1 || level == 2) {
@@ -558,6 +598,8 @@ game.onUpdate(function () {
     }
     if (score == 6) {
         scorewidth = 38
+        music.stopAllSounds()
+        music.play(music.createSong(hex`0050000408030205001c000f0a006400f4010a0000040000000000000000000000000000000002540000000400012208000c0001220c001000012210001400012414001800012518001c00012420002400012228002c0001222c003000012230003400012234003800012038003c00015f3c004000011e40004c00011d07001c00020a006400f401640000040000000000000000000000000000000003540000000400011d08000c00011d0c001000011d10001400011e14001800012018001c00011e20002400011d28002c00011d2c003000011d30003400011d34003800011b38003c00015a3c0040000119400050000118`), music.PlaybackMode.InBackground)
         timer.after(30, function () {
             score += 1
         })
