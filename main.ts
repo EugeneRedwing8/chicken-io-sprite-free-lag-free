@@ -71,8 +71,8 @@ function settile2indexat (col: number, row: number, index: number) {
 function imagesetmap (map: Image, width: number, height: number) {
     for (let index = 0; index <= width - 1; index++) {
         for (let index2 = 0; index2 <= height - 1; index2++) {
-            index3 = map.getPixel(index, index2)
-            settileindexat(index, index2, index3)
+            index32 = map.getPixel(index, index2)
+            settileindexat(index, index2, index32)
         }
     }
 }
@@ -107,10 +107,10 @@ function settileindexat (col: number, row: number, index: number) {
     map[col][row] = index
 }
 function imagesetmap2 (map: Image, width: number, height: number) {
-    for (let index = 0; index <= width - 1; index++) {
-        for (let index2 = 0; index2 <= height - 1; index2++) {
-            index3 = map.getPixel(index, index2)
-            settile2indexat(index, index2, index3)
+    for (let index7 = 0; index7 <= width - 1; index7++) {
+        for (let index22 = 0; index22 <= height - 1; index22++) {
+            index32 = map.getPixel(index7, index22)
+            settile2indexat(index7, index22, index32)
         }
     }
 }
@@ -119,27 +119,28 @@ function gettileindexat (col: number, row: number) {
 }
 let imagenum = 0
 let dir = 0
-let carX = 0
 let car_exists = false
-let truck2Y = 0
 let truck2exists = false
-let truckY = 0
 let truck_exists = false
-let image2: Image = null
 let newcolumn: number[] = []
 let map: number[][] = []
-let index3 = 0
+let index32 = 0
 let newcolumn2: number[] = []
-let Y = 0
-let X = 0
-let score = 0
 let gameisstarted = false
 let map2: number[][] = []
 let scorewidth = 0
+let score = 0
+let X = 0
+let Y = 0
+let image2: Image = null
+let truckY = 0
+let truck2Y = 0
+let carX = 0
 if (!(blockSettings.exists("levl"))) {
     blockSettings.writeNumber("levl", 0)
 }
 let level = blockSettings.readNumber("levl")
+game.stats = true
 music.stopAllSounds()
 music.play(music.createSong(hex`0078000408020200001c00010a006400f401640000040000000000000000000000000005000004380020002400021da524002800021da528002c00021da52c003000021da530003400021da534003800021da538003c00021da53c004000021d2406001c00010a006400f401640000040000000000000000000000000000000002380000000400021da504000800021da508000c00021da50c001000021da510001400021da514001800021da518001c00021da51c002000021da5`), music.PlaybackMode.LoopingInBackground)
 spriteutils.drawTransparentImage(assets.image`thumbnail`, scene.backgroundImage(), 0, 0)
@@ -493,80 +494,6 @@ menu.addmenuoption("RESET GAME", img`
     game.reset()
 })
 game.onUpdate(function () {
-    scene.setBackgroundImage(image.create(160, 120))
-    for (let indexX = 0; indexX <= map.length - 1; indexX++) {
-        for (let indexY = 0; indexY <= map[indexX].length - 1; indexY++) {
-            spriteutils.drawTransparentImage(tiles2[gettileindexat(indexX, indexY)], scene.backgroundImage(), indexX * 16 - scene.cameraProperty(CameraProperty.Left), indexY * 16 - scene.cameraProperty(CameraProperty.Top))
-        }
-    }
-    spriteutils.drawTransparentImage(image2, scene.backgroundImage(), X, Y)
-    spriteutils.drawTransparentImage(assets.image`egg`, scene.backgroundImage(), eggX, eggY)
-    if (level == 0 || level == 1 || (level == 2 || level == 3)) {
-        if (truck_exists) {
-            spriteutils.drawTransparentImage(assets.image`truck1`, scene.backgroundImage(), 32, truckY)
-            for (let index = 0; index < 4; index++) {
-                truckY += 1
-            }
-            timer.after(700, function () {
-                truck_exists = false
-            })
-        } else {
-            if (Math.percentChance(1)) {
-                truckY = -10
-                spriteutils.drawTransparentImage(assets.image`truck1`, scene.backgroundImage(), 32, truckY)
-                truck_exists = true
-                for (let index = 0; index < 4; index++) {
-                    truckY += 1
-                }
-            }
-        }
-        if (truck2exists) {
-            spriteutils.drawTransparentImage(assets.image`truck2`, scene.backgroundImage(), 112, truck2Y)
-            for (let index = 0; index < 4; index++) {
-                truck2Y += 1
-            }
-            timer.after(700, function () {
-                truck2exists = false
-            })
-        } else {
-            if (Math.percentChance(1)) {
-                truck2Y = -10
-                spriteutils.drawTransparentImage(assets.image`truck2`, scene.backgroundImage(), 112, truck2Y)
-                truck2exists = true
-                for (let index = 0; index < 4; index++) {
-                    truck2Y += 1
-                }
-            }
-        }
-    }
-    if (level == 1 || level == 2) {
-        if (car_exists) {
-            spriteutils.drawTransparentImage(assets.image`car1`, scene.backgroundImage(), carX, 80)
-            for (let index = 0; index < 4; index++) {
-                carX += 1
-            }
-            timer.after(900, function () {
-                car_exists = false
-            })
-        } else {
-            if (Math.percentChance(1)) {
-                carX = -10
-                spriteutils.drawTransparentImage(assets.image`car1`, scene.backgroundImage(), carX, 80)
-                car_exists = true
-                for (let index = 0; index < 4; index++) {
-                    carX += 1
-                }
-            }
-        }
-    }
-    for (let indexX = 0; indexX <= map2.length - 1; indexX++) {
-        for (let indexY = 0; indexY <= map2[indexX].length - 1; indexY++) {
-            spriteutils.drawTransparentImage(tiles2[gettile2indexat(indexX, indexY)], scene.backgroundImage(), indexX * 16 - scene.cameraProperty(CameraProperty.Left), indexY * 16 - scene.cameraProperty(CameraProperty.Top))
-        }
-    }
-    spriteutils.drawTransparentImage(eggsdisplay[score], scene.backgroundImage(), scene.cameraProperty(CameraProperty.Right) - scorewidth, scene.cameraProperty(CameraProperty.Top))
-})
-game.onUpdate(function () {
     if (controller.left.isPressed()) {
         if (X > 0) {
             X += -2
@@ -643,6 +570,80 @@ game.onUpdate(function () {
         pauseUntil(() => controller.A.isPressed())
         game.reset()
     }
+})
+game.onUpdate(function () {
+    scene.setBackgroundImage(image.create(160, 120))
+    for (let indexX = 0; indexX <= map.length - 1; indexX++) {
+        for (let indexY = 0; indexY <= map[indexX].length - 1; indexY++) {
+            spriteutils.drawTransparentImage(tiles2[gettileindexat(indexX, indexY)], scene.backgroundImage(), indexX * 16 - scene.cameraProperty(CameraProperty.Left), indexY * 16 - scene.cameraProperty(CameraProperty.Top))
+        }
+    }
+    spriteutils.drawTransparentImage(image2, scene.backgroundImage(), X, Y)
+spriteutils.drawTransparentImage(assets.image`egg`, scene.backgroundImage(), eggX, eggY)
+if (level == 0 || level == 1 || (level == 2 || level == 3)) {
+        if (truck_exists) {
+            spriteutils.drawTransparentImage(assets.image`truck1`, scene.backgroundImage(), 32, truckY)
+for (let index = 0; index < 4; index++) {
+                truckY += 1
+            }
+            timer.after(700, function () {
+                truck_exists = false
+            })
+        } else {
+            if (Math.percentChance(1)) {
+                truckY = -10
+                spriteutils.drawTransparentImage(assets.image`truck1`, scene.backgroundImage(), 32, truckY)
+truck_exists = true
+                for (let index = 0; index < 4; index++) {
+                    truckY += 1
+                }
+            }
+        }
+        if (truck2exists) {
+            spriteutils.drawTransparentImage(assets.image`truck2`, scene.backgroundImage(), 112, truck2Y)
+for (let index = 0; index < 4; index++) {
+                truck2Y += 1
+            }
+            timer.after(700, function () {
+                truck2exists = false
+            })
+        } else {
+            if (Math.percentChance(1)) {
+                truck2Y = -10
+                spriteutils.drawTransparentImage(assets.image`truck2`, scene.backgroundImage(), 112, truck2Y)
+truck2exists = true
+                for (let index = 0; index < 4; index++) {
+                    truck2Y += 1
+                }
+            }
+        }
+    }
+    if (level == 1 || level == 2) {
+        if (car_exists) {
+            spriteutils.drawTransparentImage(assets.image`car1`, scene.backgroundImage(), carX, 80)
+for (let index = 0; index < 4; index++) {
+                carX += 1
+            }
+            timer.after(900, function () {
+                car_exists = false
+            })
+        } else {
+            if (Math.percentChance(1)) {
+                carX = -10
+                spriteutils.drawTransparentImage(assets.image`car1`, scene.backgroundImage(), carX, 80)
+car_exists = true
+                for (let index = 0; index < 4; index++) {
+                    carX += 1
+                }
+            }
+        }
+    }
+    for (let indexX2 = 0; indexX2 <= map2.length - 1; indexX2++) {
+        for (let indexY2 = 0; indexY2 <= map2[indexX2].length - 1; indexY2++) {
+            spriteutils.drawTransparentImage(tiles2[gettile2indexat(indexX2, indexY2)], scene.backgroundImage(), indexX2 * 16 - scene.cameraProperty(CameraProperty.Left), indexY2 * 16 - scene.cameraProperty(CameraProperty.Top))
+        }
+    }
+    spriteutils.drawTransparentImage(eggsdisplay[score], scene.backgroundImage(), scene.cameraProperty(CameraProperty.Right) - scorewidth, scene.cameraProperty(CameraProperty.Top))
 })
 game.onUpdateInterval(50, function () {
     if (controller.left.isPressed()) {
